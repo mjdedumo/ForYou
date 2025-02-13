@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+            color: white;
+            overflow: hidden;
+        }
+        .slideshow-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .slide {
+            display: none;
+            transition: opacity 1s ease-in-out;
+        }
+        .active {
+            display: block;
+            opacity: 1;
+        }
+        .next-btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            from { transform: translateY(-10vh); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+       
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <img class="slide active" src="0.png" width="200px" height="200px" >
+        <img class="slide" src="1.png" width="200px" height="200px">
+        <img class="slide" src="2.png" width="200px" height="200px">
+        <img class="slide" src="00.jpg"  width="200px" id="last-slide">
+        <div class="button-container">
+            <button class="next-btn" onclick="nextSlide()" id="next-button">Next</button>
+        </div>
+    </div>
+   
+        <audio id="background-music" src="Brent Morgan - Forever, Me and You.mp3"></audio>
+   
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".slide");
+        const music = document.getElementById("background-music");
+        const nextButton = document.getElementById("next-button");
+        
+        function nextSlide() {
+            slides[slideIndex].classList.remove("active");
+            slideIndex++;
+            
+            if (slideIndex < slides.length) {
+                slides[slideIndex].classList.add("active");
+            }
+            
+            if (slideIndex === slides.length - 1) {
+                nextButton.style.display = "none";
+                music.play();
+                startHeartRain();
+                startAutoSlideshow();
+            }
+        }
+
+        function startHeartRain() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }
+        }
+
+        function startAutoSlideshow() {
+            const lastSlide = document.getElementById("last-slide");
+                if (lastSlide) {
+                    lastSlide.remove();
+                }
+            const extraSlides = [
+                "00.jpg",
+                "01.jpg",
+                "02.jpg",
+                "03.jpg"                
+            ];
+
+            let extraIndex = 0;
+            const imgElement = document.createElement("img");
+            imgElement.classList.add("slide", "active");
+            imgElement.style.position = "absolute";
+            imgElement.style.maxHeight = "80%";
+            imgElement.style.maxWidth = "80%";
+            document.querySelector(".slideshow-container").appendChild(imgElement);
+
+            function changeImage() {
+                imgElement.src = extraSlides[extraIndex];
+                extraIndex = (extraIndex + 1) % extraSlides.length; // Loop back to the first image
+                setTimeout(changeImage, 2000);
+            }
+
+            changeImage();
+        }
+        function nextSlide() {
+            nextButton.disabled = true; // Disable the button
+            nextButton.textContent = "..."; // Change text to "..."
+
+            slides[slideIndex].classList.remove("active");
+            slideIndex++;
+
+            if (slideIndex < slides.length) {
+                slides[slideIndex].classList.add("active");
+            }
+
+            if (slideIndex === slides.length - 1) {
+                nextButton.style.display = "none";
+                music.play();
+                startHeartRain();
+                startAutoSlideshow();
+            } else {
+                setTimeout(() => {
+                    nextButton.disabled = false; // Re-enable after 2 seconds
+                    nextButton.textContent = "Next"; // Change text back to "Next"
+                }, 2000);
+            }
+        }
+
+    </script>
+</body>
+</html>
