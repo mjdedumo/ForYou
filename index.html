@@ -30,14 +30,7 @@
             display: block;
             opacity: 1;
         }
-        .next-btn {
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
+       
         .heart {
             position: absolute;
             color: red;
@@ -54,6 +47,87 @@
             justify-content: center;
             margin-top: 20px;
         }
+
+        .button {
+        min-width: 300px;
+        min-height: 60px;
+        display: inline-flex;
+        font-family: 'Nunito', sans-serif;
+        font-size: 22px;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 1.3px;
+        font-weight: 700;
+        color: #313133;
+        background: #4FD1C5;
+        background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+        border: none;
+        border-radius: 1000px;
+        transition: all 0.3s ease-in-out 0s;
+        cursor: pointer;
+        outline: none;
+        position: relative;
+        padding: 10px;
+        }
+
+        .button::before {
+        content: '';
+        border-radius: 1000px;
+        min-width: calc(300px + 12px);
+        min-height: calc(60px + 12px);
+        border: 6px solid #00FFCB;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: all .3s ease-in-out 0s;
+        }
+
+        .button:hover, 
+        .button:focus {
+        color: #313133;
+        transform: translateY(-6px);
+        }
+
+        .button:hover::before, 
+        .button:focus::before {
+        opacity: 1;
+        }
+
+        .button::after {
+        content: '';
+        width: 30px; height: 30px;
+        border-radius: 100%;
+        border: 6px solid #00FFCB;
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: ring 1.5s infinite;
+        }
+
+        .button:hover::after, 
+        .button:focus::after {
+        animation: none;
+        display: none;
+        }
+
+        @keyframes ring {
+        0% {
+            width: 30px;
+            height: 30px;
+            opacity: 1;
+        }
+        100% {
+            width: 300px;
+            height: 300px;
+            opacity: 0;
+        }
+        }
     </style>
 </head>
 <body>
@@ -63,7 +137,7 @@
         <img class="slide" src="2.png" width="200px" height="200px">
         <img class="slide" src="00.jpg"  width="200px" id="last-slide">
         <div class="button-container">
-            <button class="next-btn" onclick="nextSlide()" id="next-button">Next</button>
+            <button class="button" onclick="nextSlide()" id="next-button">Next</button>
         </div>
     </div>
    
@@ -112,7 +186,8 @@
                 "00.jpg",
                 "01.jpg",
                 "02.jpg",
-                "03.jpg"                
+                "03.jpg",
+                "04.jpg"                
             ];
 
             let extraIndex = 0;
@@ -151,7 +226,7 @@
                 setTimeout(() => {
                     nextButton.disabled = false; // Re-enable after 2 seconds
                     nextButton.textContent = "Next"; // Change text back to "Next"
-                }, 1000);
+                }, 500);
             }
         }
 
